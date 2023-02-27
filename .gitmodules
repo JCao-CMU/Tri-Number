@@ -1,3 +1,6 @@
 [submodule "IGen"]
 	path = IGen
 	url = https://github.com/joaoriverd/IGen.git
+[submodule "FFT-Radhard-Sample"]
+	path = FFT-Radhard-Sample
+	url = https://github.com/JCao-CMU/FFT-Radhard-Sample.git
