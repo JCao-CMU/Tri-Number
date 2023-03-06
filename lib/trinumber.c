@@ -7,8 +7,8 @@
 #include <stdbool.h>
 
 typedef struct trinumber_real {
-    f64_I interval;
-    dd_t center;
+    f32_I interval;
+    double center;
 } tnum_real_t;
 
 typedef struct trinumber_complex {
@@ -18,10 +18,10 @@ typedef struct trinumber_complex {
 
 interval_t create_interval(int real){
     interval_t itv;
-    f64_I real_itv = _ia_cast_int_to_f64(real);
-    f64_I imag_itv = _ia_cast_int_to_f64(0);
-    dd_t real_center = veltkampSplit(real);
-    dd_t img_center = veltkampSplit(0);
+    f32_I real_itv = _ia_cast_int_to_f32(real);
+    f32_I imag_itv = _ia_cast_int_to_f32(0);
+    double real_center = (double)real;
+    double img_center = (double)0;
     itv.real.interval = real_itv;
     itv.imag.interval = imag_itv;
     itv.real.center = real_center;
@@ -33,77 +33,77 @@ interval_t create_interval(int real){
 
 interval_t interval_add(interval_t A, interval_t B) {
     interval_t result;
-    result.real.interval = _ia_add_f64(A.real.interval, B.real.interval);
-    result.imag.interval = _ia_add_f64(A.imag.interval, B.imag.interval);
-    result.real.center = dd_add(A.real.center, B.real.center);
-    result.imag.center = dd_add(A.imag.center, B.imag.center);
+    result.real.interval = _ia_add_f32(A.real.interval, B.real.interval);
+    result.imag.interval = _ia_add_f32(A.imag.interval, B.imag.interval);
+    result.real.center = A.real.center + B.real.center;
+    result.imag.center = A.imag.center + B.imag.center;
     
     return result;
 }
 
 interval_t interval_sub(interval_t A, interval_t B) {
     interval_t result;
-    result.real.interval = _ia_sub_f64(A.real.interval, B.real.interval);
-    result.imag.interval = _ia_sub_f64(A.imag.interval, B.imag.interval);
-    result.real.center = dd_add(A.real.center, dd_neg(B.real.center));
-    result.imag.center = dd_add(A.imag.center, dd_neg(B.imag.center));
+    result.real.interval = _ia_sub_f32(A.real.interval, B.real.interval);
+    result.imag.interval = _ia_sub_f32(A.imag.interval, B.imag.interval);
+    result.real.center = A.real.center - B.real.center;
+    result.imag.center = A.imag.center - B.imag.center;
     return result;
 }
 
 interval_t interval_mul(interval_t A, interval_t B) {
     interval_t result;
 
-    f64_I aRbR, aCbC, aRbC, aCbR;
-    aRbR = _ia_mul_f64(A.real.interval, B.real.interval);
-    aCbC = _ia_mul_f64(A.imag.interval, B.imag.interval);
-    aRbC = _ia_mul_f64(A.real.interval, B.imag.interval);
-    aCbR = _ia_mul_f64(A.imag.interval, B.real.interval);
+    f32_I aRbR, aCbC, aRbC, aCbR;
+    aRbR = _ia_mul_f32(A.real.interval, B.real.interval);
+    aCbC = _ia_mul_f32(A.imag.interval, B.imag.interval);
+    aRbC = _ia_mul_f32(A.real.interval, B.imag.interval);
+    aCbR = _ia_mul_f32(A.imag.interval, B.real.interval);
 
-    result.real.interval = _ia_sub_f64(aRbR, aCbC);
-    result.imag.interval = _ia_add_f64(aRbC, aCbR);
+    result.real.interval = _ia_sub_f32(aRbR, aCbC);
+    result.imag.interval = _ia_add_f32(aRbC, aCbR);
 
-    dd_t aRbRd, aCbCd, aRbCd, aCbRd;
-    aRbRd = dd_mul(A.real.center, B.real.center);
-    aCbCd = dd_mul(A.imag.center, B.imag.center);
-    aRbCd = dd_mul(A.real.center, B.imag.center);
-    aCbRd = dd_mul(A.imag.center, B.real.center);
+    double aRbRd, aCbCd, aRbCd, aCbRd;
+    aRbRd = (A.real.center * B.real.center);
+    aCbCd = (A.imag.center * B.imag.center);
+    aRbCd = (A.real.center * B.imag.center);
+    aCbRd = (A.imag.center * B.real.center);
 
-    result.real.center = dd_add(aRbRd, dd_neg(aCbCd));
-    result.imag.center = dd_add(aRbCd, aCbRd);
+    result.real.center =  aRbRd - aCbCd;
+    result.imag.center = aRbCd + aCbRd;
     return result;
 }
 
 void print_interval(interval_t A){
-    double ru = A.real.interval.up;
-    double rl = A.real.interval.lo;
-    double iu = A.imag.interval.up;
-    double il = A.imag.interval.lo;
-    double rc = A.real.center.h;
-    double ic = A.imag.center.l;
+    float ru = A.real.interval.up;
+    float rl = A.real.interval.lo;
+    float iu = A.imag.interval.up;
+    float il = A.imag.interval.lo;
+    double rc = A.real.center;
+    double ic = A.imag.center;
     printf("({%f, %f, %f}, {%f, %f, %f})\n", rl, rc, ru, il, ic, iu);
 }
 
 bool is_valid_interval(interval_t A) {
-    double ru = A.real.interval.up;
-    double rl = A.real.interval.lo;
-    double iu = A.imag.interval.up;
-    double il = A.imag.interval.lo;
-    dd_t rc = A.real.center;
-    dd_t ic = A.imag.center;
+    float ru = A.real.interval.up;
+    float rl = A.real.interval.lo;
+    float iu = A.imag.interval.up;
+    float il = A.imag.interval.lo;
+    double rc = A.real.center;
+    double ic = A.imag.center;
 
     if ((ru < rl) || (iu < il))
         return false;
 
-    dd_t ru_dd = dd_set(ru, 0.0);
-    dd_t rl_dd = dd_set(rl, 0.0);
-    dd_t iu_dd = dd_set(iu, 0.0);
-    dd_t il_dd = dd_set(il, 0.0);
+    double ru_dd = (double)ru;
+    double rl_dd = (double)rl;
+    double iu_dd = (double)iu;
+    double il_dd = (double)il;
 
     // if c-l-u or l-u-c
-    if (dd_cmpgt(rl_dd, rc) || dd_cmpgt(rc, ru_dd)) 
+    if ((rl_dd > rc) || (rc > ru_dd)) 
         return false;
 
-    if (dd_cmpgt(il_dd, ic) || dd_cmpgt(ic, iu_dd)) 
+    if ((il_dd > ic) || (ic > iu_dd)) 
         return false;
     
     return true;
