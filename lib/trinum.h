@@ -31,5 +31,13 @@ void print_interval(interval_t A);
 
 bool is_valid_interval(interval_t A);
 
+tnum_real_t create_real(long A);
+
+tnum_real_t real_mult(tnum_real_t A, tnum_real_t B);
+
+tnum_real_t real_div(tnum_real_t A, tnum_real_t B);
+
+interval_t complex_exp(tnum_real_t A);
+
 #endif
 
