@@ -4,3 +4,6 @@
 [submodule "FFT-Radhard-Sample"]
 	path = FFT-Radhard-Sample
 	url = https://github.com/JCao-CMU/FFT-Radhard-Sample.git
+[submodule "crlibm"]
+	path = crlibm
+	url = https://github.com/taschini/crlibm.git
