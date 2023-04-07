@@ -10,8 +10,8 @@
 #include <stdbool.h>
 
 typedef struct trinumber_real {
-    f64_I interval;
-    dd_t center;
+    f32_I interval;
+    double center;
 } tnum_real_t;
 
 typedef struct trinumber_complex {

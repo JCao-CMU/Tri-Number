@@ -1,0 +1,11 @@
+prefix=/afs/ece.cmu.edu/usr/zhexic/Private/FFT_Mult
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: mpfi
+URL: https://gitlab.inria.fr/mpfi/mpfi/
+Description: C library for multiple-precision interval arithmetic 
+Version: 1.5.4
+Libs: -L${libdir} -lmpfi -lmpfr -lgmp
+Cflags: -I${includedir}

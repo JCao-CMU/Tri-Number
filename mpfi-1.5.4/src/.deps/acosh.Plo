@@ -1,0 +1,21 @@
+acosh.lo: acosh.c /usr/include/stdc-predef.h mpfi-impl.h mpfi.h \
+ /usr/include/gmp.h /usr/include/gmp-x86_64.h \
+ /usr/lib/gcc/x86_64-redhat-linux/4.8.5/include/stddef.h \
+ /afs/ece.cmu.edu/usr/zhexic/Private/FFT_Mult/include/mpfr.h \
+ ../mpfi_config.h
+
+/usr/include/stdc-predef.h:
+
+mpfi-impl.h:
+
+mpfi.h:
+
+/usr/include/gmp.h:
+
+/usr/include/gmp-x86_64.h:
+
+/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include/stddef.h:
+
+/afs/ece.cmu.edu/usr/zhexic/Private/FFT_Mult/include/mpfr.h:
+
+../mpfi_config.h:
