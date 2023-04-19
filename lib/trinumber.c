@@ -108,11 +108,11 @@ tnum_real_t real_div(tnum_real_t A, tnum_real_t B){
 
 interval_t complex_exp(tnum_real_t A){
     tnum_real_t cosine;
-    cosine.interval = _ia_cos_f32(A.interval);
+    cosine.interval = _ia_cast_f64_to_f32(_ia_cos_f64(_ia_cast_f32_to_f64(A.interval)));
     cosine.center = cos(A.center);
 
     tnum_real_t sine;
-    sine.interval = _ia_sin_f32(A.interval);
+    sine.interval = _ia_cast_f64_to_f32(_ia_sin_f64(_ia_cast_f32_to_f64(A.interval)));
     sine.interval = _ia_neg_f32(sine.interval);
     sine.center = -sin(A.center);
 

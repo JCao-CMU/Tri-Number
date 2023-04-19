@@ -1,11 +1,44 @@
 // main file where we run our pipeline and conduct various experiments
-#include <stdio.h>
-// #include "igen_lib.h"
-#include "FFT-Radhard-Sample/libs/fft.h"
-#include "complex.h"
-#include <time.h>
-#include <stdlib.h>
-#include <omp.h>
+#include "lib/trinum.h"
+
+#ifndef MM_PI
+    #define MM_PI 3.1415926535897932384626433832795028841971693993751058209749
+#endif
+
+void fft(interval_t *in, interval_t *twiddles, interval_t *out, unsigned long size){
+
+}
+
+void get_twiddles(interval_t *twiddles, unsigned long size){
+
+    /* NOTE techincally for a symmetric divisor, we can just calculate one quadrant 
+       and use that to infer other quadrant. */
+    unsigned long size_quadrant = size/4 + (size % 4 != 0);
+
+    /* Note Then we calculate exp(x*2pi*j/N) */
+    tnum_real_t PI;
+    // int curr_mode = fegetround();
+    fesetround(FE_UPWARD);
+    PI.interval.up = (MM_PI) + FLT_MIN;
+    fesetround(FE_DOWNWARD);
+    PI.interval.lo = - (MM_PI - FLT_MIN);
+    fesetround(FE_UPWARD);
+    PI.center = MM_PI;
+
+    tnum_real_t two = create_real(2);
+    tnum_real_t twopi = real_mult(two, PI);
+    /* NOTE Note we used size not size_quadrant 
+       since we still want to carve the whole circle into SIZE pieces. */
+    tnum_real_t N = create_real(size);
+
+    /* NOTE Twiddle factor unit omega = 2pi/N */
+    tnum_real_t omega = real_div(twopi, N);
+    for (unsigned long x = 0; x < size_quadrant; x++){
+        tnum_real_t X = create_real(x);
+        tnum_real_t rotation = real_mult(X, omega);
+        twiddles[x] = complex_exp(rotation);
+    }
+}
 
 int main(int argc, char *argv[]) {
 
