@@ -1,4 +1,12 @@
-// main file where we run our pipeline and conduct various experiments
+/**
+ * @file radhard_fft.c
+ * @author Jeffery Cao (zhexic@andrew.cmu.edu)
+ * @brief main file where we run our pipeline and conduct various experiments
+ * @version 0.1
+ * @date 2023-04-19
+ * 
+ * 
+ */
 #include "lib/trinum.h"
 
 #ifndef MM_PI
